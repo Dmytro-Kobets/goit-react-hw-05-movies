@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 export const App = () => {
   const [tranding, setTranding] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const searchQuery = searchParams.get('searchQuery');
+
   const [searchedMovies, setSearchedMovies] = useState([]);
 
   useEffect(() => {
@@ -21,13 +21,15 @@ export const App = () => {
   };
 
   const handleChange = e => {
-    setSearchParams({ searchQuery: e.target.value });
+    setSearchParams({
+      searchQuery: e.currentTarget.value,
+    });
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
 
-    setSearchedMovies(await searchMovies(searchQuery));
+    setSearchedMovies(await searchMovies(searchParams.get('searchQuery')));
     console.log(searchedMovies);
   };
 
@@ -38,17 +40,16 @@ export const App = () => {
         <Route
           path="movies"
           element={
-            <SearchMovies
-              value={searchQuery}
-              handleChange={handleChange}
-              handleSubmit={handleSubmit}
-            />
+            <div>
+              <SearchMovies
+                handleSubmit={handleSubmit}
+                handleChange={handleChange}
+              />
+              <SearchHits movies={searchedMovies} />
+            </div>
           }
         ></Route>
-        <Route
-          path="/movies/:searchQuery"
-          element={<SearchHits movies={searchedMovies} />}
-        ></Route>
+        {/* <Route path="" element={}></Route> */}
       </Route>
     </Routes>
   );

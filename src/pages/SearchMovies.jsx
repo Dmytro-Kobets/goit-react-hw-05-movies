@@ -4,7 +4,12 @@ export const SearchMovies = ({ searchQuery, handleChange, handleSubmit }) => {
   return (
     <div>
       <form action="" onSubmit={handleSubmit}>
-        <input value={searchQuery} type="search" onChange={handleChange} />
+        <input
+          value={searchQuery}
+          name="input"
+          type="search"
+          onChange={handleChange}
+        />
         <button type="submit">Search</button>
       </form>
       <Outlet />

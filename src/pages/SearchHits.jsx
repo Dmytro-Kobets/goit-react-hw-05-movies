@@ -4,8 +4,10 @@ export const SearchHits = ({ movies }) => {
   return (
     <ul>
       {movies.map(movie => (
-        <li>
-          <Link>{movie.title || movie.name}</Link>
+        <li key={movie.id}>
+          <Link>
+            {movie.title || movie.name} {`(${movie.release_date.slice(0, 4)})`}
+          </Link>
         </li>
       ))}
     </ul>
