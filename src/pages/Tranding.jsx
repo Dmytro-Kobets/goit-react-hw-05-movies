@@ -5,7 +5,9 @@ export const Tranding = ({ tranding }) => {
     <ul>
       {tranding.map(trandingMovie => (
         <li key={trandingMovie.id}>
-          <Link>{trandingMovie.title || trandingMovie.name}</Link>
+          <Link to={`/movies/${trandingMovie.id}`}>
+            {trandingMovie.title || trandingMovie.name}
+          </Link>
         </li>
       ))}
     </ul>

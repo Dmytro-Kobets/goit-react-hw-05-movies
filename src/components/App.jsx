@@ -1,16 +1,18 @@
 import { getTranding, searchMovies } from 'services/API';
-import { Routes, Route, useSearchParams } from 'react-router-dom';
+import { Routes, Route, useSearchParams, useNavigate } from 'react-router-dom';
 import { Header } from './Header';
 import { Tranding } from 'pages/Tranding';
 import { SearchMovies } from 'pages/SearchMovies';
-import { SearchHits } from 'pages/SearchHits';
+import { MovieCast } from 'pages/MovieCast';
 import { useEffect, useState } from 'react';
+import { MovieDetails } from 'pages/MovieDetails';
+import { MovieReviews } from 'pages/MovieReviews';
 
 export const App = () => {
   const [tranding, setTranding] = useState([]);
-  const [searchParams, setSearchParams] = useSearchParams();
 
-  const [searchedMovies, setSearchedMovies] = useState([]);
+  const [searchHistory, setSearchHistory] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getTrandingMovies();
@@ -20,17 +22,12 @@ export const App = () => {
     setTranding(await getTranding());
   };
 
-  const handleChange = e => {
-    setSearchParams({
-      searchQuery: e.currentTarget.value,
-    });
-  };
+  const handleChange = e => {};
 
   const handleSubmit = async e => {
     e.preventDefault();
-
-    setSearchedMovies(await searchMovies(searchParams.get('searchQuery')));
-    console.log(searchedMovies);
+    setSearchHistory(e.currentTarget.elements.input.value);
+    navigate(`/movies?searchQuery=${e.currentTarget.elements.input.value}`);
   };
 
   return (
@@ -40,15 +37,19 @@ export const App = () => {
         <Route
           path="movies"
           element={
-            <div>
-              <SearchMovies
-                handleSubmit={handleSubmit}
-                handleChange={handleChange}
-              />
-              <SearchHits movies={searchedMovies} />
-            </div>
+            <SearchMovies
+              handleSubmit={handleSubmit}
+              handleChange={handleChange}
+            />
           }
         ></Route>
+        <Route
+          path="/movies/:movieId"
+          element={<MovieDetails searchHistory={searchHistory} />}
+        >
+          <Route path="cast" element={<MovieCast />} />
+          <Route path="reviews" element={<MovieReviews />} />
+        </Route>
         {/* <Route path="" element={}></Route> */}
       </Route>
     </Routes>
