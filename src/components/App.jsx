@@ -1,18 +1,18 @@
-import { getTranding, searchMovies } from 'services/API';
-import { Routes, Route, useSearchParams, useNavigate } from 'react-router-dom';
-import { SharedLayout } from './SharedLayout';
+import { getTranding } from 'services/API';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import { SharedLayout } from './SharedLayout/SharedLayout';
 import { useEffect, useState, lazy } from 'react';
+import { NotFound } from 'pages/NotFound';
 
-const Tranding = lazy(() => import('pages/Tranding'));
-const SearchMovies = lazy(() => import('pages/SearchMovies'));
+const Tranding = lazy(() => import('pages/Tranding/Tranding'));
+const SearchMovies = lazy(() => import('pages/SearchMovies/SearchMovies'));
 const MovieCast = lazy(() => import('pages/MovieCast'));
-const MovieDetails = lazy(() => import('pages/MovieDetails'));
+const MovieDetails = lazy(() => import('pages/MovieDetails/MovieDetails'));
 const MovieReviews = lazy(() => import('pages/MovieReviews'));
 
 export const App = () => {
   const [tranding, setTranding] = useState([]);
 
-  const [searchHistory, setSearchHistory] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,7 +27,6 @@ export const App = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    setSearchHistory(e.currentTarget.elements.input.value);
     navigate(`/movies?searchQuery=${e.currentTarget.elements.input.value}`);
   };
 
@@ -48,6 +47,7 @@ export const App = () => {
           <Route path="cast" element={<MovieCast />} />
           <Route path="reviews" element={<MovieReviews />} />
         </Route>
+        <Route path="*" element={<NotFound />}></Route>
       </Route>
     </Routes>
   );

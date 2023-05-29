@@ -1,6 +1,12 @@
-import { Outlet, Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { searchMovies } from 'services/API';
+import {
+  Container,
+  SearchForm,
+  SearchInput,
+  SearchButton,
+} from './SearchMovies.styled';
 
 const SearchMovies = ({ searchQuery, handleChange, handleSubmit }) => {
   const [searchedMovies, setSearchedMovies] = useState([]);
@@ -13,16 +19,16 @@ const SearchMovies = ({ searchQuery, handleChange, handleSubmit }) => {
     setMovies();
   }, [searchParams.get('searchQuery')]);
   return (
-    <div>
-      <form action="" onSubmit={handleSubmit}>
-        <input
+    <Container>
+      <SearchForm action="" onSubmit={handleSubmit}>
+        <SearchInput
           value={searchQuery}
           name="input"
           type="search"
           onChange={handleChange}
         />
-        <button type="submit">Search</button>
-      </form>
+        <SearchButton type="submit">Search</SearchButton>
+      </SearchForm>
       <ul>
         {searchedMovies.map(movie => (
           <li key={movie.id}>
@@ -33,7 +39,7 @@ const SearchMovies = ({ searchQuery, handleChange, handleSubmit }) => {
           </li>
         ))}
       </ul>
-    </div>
+    </Container>
   );
 };
 

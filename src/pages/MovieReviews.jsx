@@ -15,7 +15,7 @@ const MovieReviews = () => {
   }, []);
 
   if (isLoading) {
-    return <p>aboba</p>;
+    return <p>Loading...</p>;
   }
 
   return (
