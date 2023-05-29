@@ -2,7 +2,7 @@ import { Outlet, Link, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { searchMovies } from 'services/API';
 
-export const SearchMovies = ({ searchQuery, handleChange, handleSubmit }) => {
+const SearchMovies = ({ searchQuery, handleChange, handleSubmit }) => {
   const [searchedMovies, setSearchedMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -26,7 +26,7 @@ export const SearchMovies = ({ searchQuery, handleChange, handleSubmit }) => {
       <ul>
         {searchedMovies.map(movie => (
           <li key={movie.id}>
-            <Link to={`${movie.id}`}>
+            <Link to={`${movie.id}`} state={{ from: window.location.href }}>
               {movie.title || movie.name}{' '}
               {`(${movie.release_date.slice(0, 4)})`}
             </Link>
@@ -36,3 +36,5 @@ export const SearchMovies = ({ searchQuery, handleChange, handleSubmit }) => {
     </div>
   );
 };
+
+export default SearchMovies;

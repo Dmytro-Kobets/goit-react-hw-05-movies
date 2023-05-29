@@ -1,10 +1,17 @@
-import { useParams, Link, Outlet } from 'react-router-dom';
+import {
+  useParams,
+  Link,
+  Outlet,
+  useNavigate,
+  useLocation,
+} from 'react-router-dom';
 import { searchMoviesById } from '../services/API';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, Suspence } from 'react';
 
-export const MovieDetails = ({ searchHistory }) => {
+const MovieDetails = () => {
   const id = useParams();
-
+  const { state } = useLocation();
+  const fromRef = useRef(null);
   const [movieDetails, setMovieDetails] = useState(null);
 
   const details = async () => {
@@ -12,11 +19,12 @@ export const MovieDetails = ({ searchHistory }) => {
   };
 
   useEffect(() => {
+    // fromRef.current = state.from;
     details();
   }, []);
 
   if (movieDetails === null) {
-    return null;
+    return <p>aboba</p>;
   }
   const {
     poster_path: poster,
@@ -27,10 +35,14 @@ export const MovieDetails = ({ searchHistory }) => {
   } = movieDetails;
   return (
     <div>
-      <Link to={`/movies?searchQuery=${searchHistory}`}>Go back</Link>
+      {/* <Link to={fromRef.current}>Go back</Link> */}
       <div>
         <img
-          src={`https://image.tmdb.org/t/p/w500/${poster}`}
+          src={
+            poster
+              ? `https://image.tmdb.org/t/p/w500/${poster}`
+              : 'https://placehold.co/300x450'
+          }
           alt=""
           width="300px"
         />
@@ -58,7 +70,11 @@ export const MovieDetails = ({ searchHistory }) => {
           </li>
         </ul>
       </div>
-      <Outlet />
+      <Suspence>
+        <Outlet />
+      </Suspence>
     </div>
   );
 };
+
+export default MovieDetails;

@@ -1,12 +1,13 @@
 import { getTranding, searchMovies } from 'services/API';
 import { Routes, Route, useSearchParams, useNavigate } from 'react-router-dom';
-import { Header } from './Header';
-import { Tranding } from 'pages/Tranding';
-import { SearchMovies } from 'pages/SearchMovies';
-import { MovieCast } from 'pages/MovieCast';
-import { useEffect, useState } from 'react';
-import { MovieDetails } from 'pages/MovieDetails';
-import { MovieReviews } from 'pages/MovieReviews';
+import { SharedLayout } from './SharedLayout';
+import { useEffect, useState, lazy } from 'react';
+
+const Tranding = lazy(() => import('pages/Tranding'));
+const SearchMovies = lazy(() => import('pages/SearchMovies'));
+const MovieCast = lazy(() => import('pages/MovieCast'));
+const MovieDetails = lazy(() => import('pages/MovieDetails'));
+const MovieReviews = lazy(() => import('pages/MovieReviews'));
 
 export const App = () => {
   const [tranding, setTranding] = useState([]);
@@ -32,7 +33,7 @@ export const App = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<Header />}>
+      <Route path="/" element={<SharedLayout />}>
         <Route index element={<Tranding tranding={tranding} />} />
         <Route
           path="movies"
@@ -42,15 +43,11 @@ export const App = () => {
               handleChange={handleChange}
             />
           }
-        ></Route>
-        <Route
-          path="/movies/:movieId"
-          element={<MovieDetails searchHistory={searchHistory} />}
-        >
+        />
+        <Route path="/movies/:movieId" element={<MovieDetails />}>
           <Route path="cast" element={<MovieCast />} />
           <Route path="reviews" element={<MovieReviews />} />
         </Route>
-        {/* <Route path="" element={}></Route> */}
       </Route>
     </Routes>
   );
