@@ -7,8 +7,9 @@ import {
   SearchInput,
   SearchButton,
 } from './SearchMovies.styled';
+import PropTypes from 'prop-types';
 
-const SearchMovies = ({ searchQuery, handleChange, handleSubmit }) => {
+const SearchMovies = ({ handleChange, handleSubmit }) => {
   const [searchedMovies, setSearchedMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -21,12 +22,7 @@ const SearchMovies = ({ searchQuery, handleChange, handleSubmit }) => {
   return (
     <Container>
       <SearchForm action="" onSubmit={handleSubmit}>
-        <SearchInput
-          value={searchQuery}
-          name="input"
-          type="search"
-          onChange={handleChange}
-        />
+        <SearchInput name="input" type="search" onChange={handleChange} />
         <SearchButton type="submit">Search</SearchButton>
       </SearchForm>
       <ul>
@@ -41,6 +37,11 @@ const SearchMovies = ({ searchQuery, handleChange, handleSubmit }) => {
       </ul>
     </Container>
   );
+};
+
+SearchMovies.propTypes = {
+  handleChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default SearchMovies;
