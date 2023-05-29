@@ -6,6 +6,7 @@ const MovieReviews = () => {
   const id = useParams();
   const [reviews, setReviews] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
   const getReviews = async () => {
     setReviews(await getMovieReviews(id.movieId));
     setIsLoading(false);
